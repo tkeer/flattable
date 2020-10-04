@@ -14,7 +14,7 @@ class CreateReadingActivitiesTable extends Migration
     public function up()
     {
         Schema::create('reading_activities', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->unsignedInteger('book_id');
             $table->timestamps();
         });

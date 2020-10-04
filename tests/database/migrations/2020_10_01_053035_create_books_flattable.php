@@ -14,7 +14,7 @@ class CreateBooksFlattable extends Migration
     public function up()
     {
         Schema::create('books_flattable', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('book_id');
             $table->string('name')->nullable();
             $table->date('published_at')->nullable();

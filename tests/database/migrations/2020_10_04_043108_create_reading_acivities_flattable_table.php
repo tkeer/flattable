@@ -14,7 +14,7 @@ class CreateReadingAcivitiesFlattableTable extends Migration
     public function up()
     {
         Schema::create('reading_activities_flattable', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->unsignedInteger('activity_id');
             $table->unsignedInteger('book_id');
             $table->string('book_name');

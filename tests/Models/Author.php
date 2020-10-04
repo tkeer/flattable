@@ -13,7 +13,7 @@ use Tkeer\Flattable\Test\Database\Factories\BookFactory;
 
 class Author extends Model
 {
-    use HasFactory;
+//    use HasFactory;
 
     /**
      * Create a new factory instance for the model.

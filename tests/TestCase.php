@@ -23,6 +23,13 @@ class TestCase extends OrchestraTestCase
     {
         parent::setUp();
 
+//        dd(__DIR__ . '/database/migrations');
+//        $this->artisan('migrate', ['--path2' => __DIR__ . '/database/migrations']);
+//        $this->loadMigrationsFrom([
+////            '--database' => 'testbench',
+//            '--path' => realpath(__DIR__ . '/../migrations'),
+//        ]);
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->withFactories(__DIR__ . '/database/factories');
     }
 }

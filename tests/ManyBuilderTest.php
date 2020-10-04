@@ -13,9 +13,10 @@ class ManyBuilderTest extends TestCase
      */
     public function it_adds_many_entries_where_primary_row_is_created()
     {
-        $publisher = Publisher::factory()->create();
+        $publisher = factory(Publisher::class)->create();
+//        $publisher = Publisher::factory()->create();
 
-        $book = Book::factory()->create(['publisher_id' => $publisher->id]);
+        $book = factory(Book::class)->create(['publisher_id' => $publisher->id]);
         $bookFlattable = PublisherFlattable::where('publisher_id', $publisher->id)->firstOrFail();
 
         $flattableBooks = json_decode($bookFlattable->books, true);
@@ -23,7 +24,7 @@ class ManyBuilderTest extends TestCase
         $this->assertEquals($flattableBooks[0]['id'], $book->id);
         $this->assertEquals($flattableBooks[0]['name'], $book->name);
 
-        $book = Book::factory()->create(['publisher_id' => $publisher->id]);
+        $book = factory(Book::class)->create(['publisher_id' => $publisher->id]);
         $bookFlattable = PublisherFlattable::where('publisher_id', $publisher->id)->firstOrFail();
 
         $flattableBooks = json_decode($bookFlattable->books, true);
@@ -37,9 +38,9 @@ class ManyBuilderTest extends TestCase
      */
     public function it_updates_json_entries_in_flattable_when_source_table_is_updated()
     {
-        $publisher = Publisher::factory()->create();
+        $publisher = factory(Publisher::class)->create();
 
-        $book = Book::factory()->create(['publisher_id' => $publisher->id]);
+        $book = factory(Book::class)->create(['publisher_id' => $publisher->id]);
 
         $publisherFlattable = PublisherFlattable::where('publisher_id', $publisher->id)->firstOrFail();
         $flattableBooks = json_decode($publisherFlattable->books, true);
@@ -58,10 +59,10 @@ class ManyBuilderTest extends TestCase
      */
     public function it_removes_entries_from_json_in_flattable_where_source_table_entry_is_deleted()
     {
-        $publisher = Publisher::factory()->create();
+        $publisher = factory(Publisher::class)->create();
 
-        Book::factory()->create(['publisher_id' => $publisher->id]);
-        Book::factory()->create(['publisher_id' => $publisher->id]);
+        factory(Book::class)->create(['publisher_id' => $publisher->id]);
+        factory(Book::class)->create(['publisher_id' => $publisher->id]);
         $bookFlattable = PublisherFlattable::where('publisher_id', $publisher->id)->firstOrFail();
         $flattableBooks = json_decode($bookFlattable->books, true);
         $this->assertCount(2, $flattableBooks);

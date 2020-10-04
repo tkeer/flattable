@@ -10,7 +10,7 @@ use Tkeer\Flattable\Test\Database\Factories\PublisherFactory;
 
 class Publisher extends Model
 {
-    use Flattable, HasFactory;
+    use Flattable/*, HasFactory*/;
 
     protected $guarded = [];
 

@@ -14,7 +14,7 @@ class PrimaryBuilderTest extends TestCase
      */
     public function it_creates_new_entry_flattable_when_main_table_entry_is_created()
     {
-        $book = Book::factory()->create();
+        $book = factory(Book::class)->create();
         $bookFlattable = BookFlattable::where('book_id', $book->id)->firstOrFail();
 
         $this->assertEquals($bookFlattable->book_id, $book->id);
@@ -25,7 +25,7 @@ class PrimaryBuilderTest extends TestCase
      */
     public function it_updates_flattable_entry_when_main_table_entry_is_updated()
     {
-        $book = Book::factory()->create();
+        $book = factory(Book::class)->create();
         $bookFlattable = BookFlattable::where('book_id', $book->id)->firstOrFail();
 
         $this->assertEquals($bookFlattable->name, $book->name);
@@ -42,7 +42,7 @@ class PrimaryBuilderTest extends TestCase
      */
     public function it_deletes_flattable_entry_when_main_table_entry_is_deleted()
     {
-        $book = Book::factory()->create();
+        $book = factory(Book::class)->create();
         $bookFlattable = BookFlattable::where('book_id', $book->id)->firstOrFail();
 
         $this->assertEquals($bookFlattable->name, $book->name);
@@ -57,8 +57,8 @@ class PrimaryBuilderTest extends TestCase
      */
     public function it_add_changes_entries_in_flattable_when_secondary_table_entry_is_updated()
     {
-        $publisher = Publisher::factory()->create();
-        $book = Book::factory()->create(['publisher_id' => $publisher->id]);
+        $publisher = factory(Publisher::class)->create();
+        $book = factory(Book::class)->create(['publisher_id' => $publisher->id]);
         $bookFlattable = BookFlattable::where('book_id', $book->id)->firstOrFail();
 
         $this->assertEquals($bookFlattable->publisher_first_name, $publisher->first_name);
@@ -75,8 +75,8 @@ class PrimaryBuilderTest extends TestCase
      */
     public function it_remove_changes_entries_in_flattable_when_secondary_table_entry_is_deleted()
     {
-        $publisher = Publisher::factory()->create();
-        $book = Book::factory()->create(['publisher_id' => $publisher->id]);
+        $publisher = factory(Publisher::class)->create();
+        $book = factory(Book::class)->create(['publisher_id' => $publisher->id]);
         $bookFlattable = BookFlattable::where('book_id', $book->id)->firstOrFail();
 
         $this->assertEquals($bookFlattable->publisher_first_name, $publisher->first_name);
@@ -94,8 +94,8 @@ class PrimaryBuilderTest extends TestCase
     public function it_adds_changes_entries_of_secondary_when_secondary_changes_entries_added()
     {
         $country = Country::create(['name' => $this->faker->country]);
-        $publisher = Publisher::factory()->create(['country_id' => $country->id]);
-        $book = Book::factory()->create(['publisher_id' => $publisher->id]);
+        $publisher = factory(Publisher::class)->create(['country_id' => $country->id]);
+        $book = factory(Book::class)->create(['publisher_id' => $publisher->id]);
         $bookFlattable = BookFlattable::where('book_id', $book->id)->firstOrFail();
 
         $this->assertEquals($bookFlattable->publisher_country_name, $country->name);

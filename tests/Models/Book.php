@@ -9,7 +9,7 @@ use Tkeer\Flattable\Test\Database\Factories\BookFactory;
 
 class Book extends Model
 {
-    use Flattable, HasFactory;
+    use Flattable/*, HasFactory*/;
 
     protected $guarded = [];
 

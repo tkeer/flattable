@@ -119,7 +119,7 @@ class ReadingActivityTest extends TestCase
         $this->assertEquals($publisher->first_name, $activityFlattable->publisher_first_name);
         $this->assertEquals($publisher->id, $activityFlattable->publisher_id);
 
-        $newPublisher = Publisher::factory()->create();
+        $newPublisher = factory(Publisher::class)->create();
         $newBook = $book->update(['publisher_id' => $newPublisher->id]);
 
         $activityFlattable->refresh();
@@ -143,7 +143,7 @@ class ReadingActivityTest extends TestCase
         $this->assertEquals($publisher->id, $activityFlattable->publisher_id);
 
         $newCountry = Country::create(['name' => $this->faker->country]);
-        $newPublisher = Publisher::factory(['country_id' => $newCountry->id])->create();
+        $newPublisher = factory(Publisher::class)->create(['country_id' => $newCountry->id]);
         $book->update(['publisher_id' => $newPublisher->id]);
 
 
@@ -234,8 +234,8 @@ class ReadingActivityTest extends TestCase
     private function createEntriesInRelatedTables()
     {
         $country = Country::create(['name' => $this->faker->country]);
-        $publisher = Publisher::factory()->create(['country_id' => $country->id]);
-        $book = Book::factory()->create(['publisher_id' => $publisher->id]);
+        $publisher = factory(Publisher::class)->create(['country_id' => $country->id]);
+        $book = factory(Book::class)->create(['publisher_id' => $publisher->id]);
         $activity = ReadingActivity::create(['book_id' => $book->id]);
 
         return compact('country', 'publisher', 'book', 'activity');
