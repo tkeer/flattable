@@ -1,0 +1,40 @@
+{
+  "name": "tkeer/flattable",
+  "description": "Catch laravel emails for local development",
+  "keywords": [
+    "laravel",
+    "local",
+    "development",
+    "mail"
+  ],
+  "authors": [
+    {
+      "name": "taukeer",
+      "email": "taukeer.liaqat@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Tkeer\\Flattable\\": "src/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tkeer\\Flattable\\Test\\": "tests/"
+    },
+    "classmap": [
+      "tests/database"
+    ]
+  },
+  "license": "MIT",
+  "require": {
+    "laravel/framework": "^8.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^6.2",
+    "phpunit/phpunit": "^9.4"
+  }
+}
