@@ -13,6 +13,10 @@ class FlattableModelObserver
      * @var ConfigurationManager
      */
     private $config;
+    /**
+     * @var DatabaseManager
+     */
+    private $db;
 
     public function __construct(DatabaseManager $databaseManager, ConfigurationManager $configurationManager)
     {
@@ -38,7 +42,8 @@ class FlattableModelObserver
     /**
      * @param Model $model
      * @param array $config
-     * @return JsonUpdate|PrimaryUpdate|SecondaryUpdate
+     * @return Builders\ManyBuilder|Builders\PrimaryBuilder|Builders\SecondaryBuilder
+     * @throws \Exception
      */
     private function getHandler(Model $model, array $config)
     {
@@ -55,34 +60,15 @@ class FlattableModelObserver
         return $factory->create();
     }
 
-    private function callHandlerFunction(Model $model, $functionName)
+    private function callHandlerFunction(Model $model, string $functionName)
     {
         $configs = $model->flattableConfig();
-//        dd($configs);
+
         foreach ($configs as $config) {
+
             $service = $this->getHandler($model, $config);
 
-            try {
-                $service->{$functionName}();
-            } catch (\Exception $e) {
-                $this->reportError($model, $e);
-            }
-        }
-    }
-
-    private function setConfigs(array $configs)
-    {
-        $this->configs = $configs;
-    }
-
-    private function reportError($model, $e)
-    {
-        $event = new UpdateFailed(get_class($model), $e->getMessage());
-
-        \Event::dispatch($event);
-
-        if (\App::environment('local') || \App::environment('testing')) {
-            throw $e;
+            $service->{$functionName}();
         }
     }
 }

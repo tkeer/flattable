@@ -104,7 +104,6 @@ class SoftDeletedModelTest extends TestCase
     {
         $models = $this->createEntriesInRelatedTables();
         $activity = $models['activity'];
-        $country = $models['country'];
         $publisher = $models['publisher'];
         $activityFlattable = ReadingActivityFlattable::where('activity_id', $activity->id)->first();
 
@@ -143,7 +142,6 @@ class SoftDeletedModelTest extends TestCase
     {
         $models = $this->createEntriesInRelatedTables();
         $activity = $models['activity'];
-        $country = $models['country'];
         $publisher = $models['publisher'];
         $activityFlattable = ReadingActivityFlattable::where('activity_id', $activity->id)->first();
 

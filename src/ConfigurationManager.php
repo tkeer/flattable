@@ -44,14 +44,14 @@ class ConfigurationManager
     {
         $configs = $this->get();
 
-        return Arr::get($configs, 'flat_table');
+        return Arr::get($configs, 'flattable');
     }
 
     public function getFlatTableJsonColName()
     {
         $configs = $this->get();
 
-        return Arr::get($configs, 'flat_table_json_col_name');
+        return Arr::get($configs, 'flattable_column_name');
     }
 
     public function deletesPrimary()

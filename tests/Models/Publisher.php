@@ -2,22 +2,19 @@
 
 namespace Tkeer\Flattable\Test\Models;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Tkeer\Flattable\Flattable;
-use Tkeer\Flattable\Test\Database\Factories\PublisherFactory;
 
 class Publisher extends Model
 {
-    use Flattable/*, HasFactory*/;
+    use Flattable;
 
     protected $guarded = [];
 
     public function flattableConfig()
     {
         return [
-//            // updates entries in books flattable
+            // updates entries in books flattable
             [
                 'columns' => [
                     'publisher_first_name' => 'first_name',
@@ -25,13 +22,13 @@ class Publisher extends Model
                 ],
                 'wheres' => [
                     [
-                        'col_name' => 'id',
-                        'flat_table_col_name' => 'publisher_id',
+                        'column_name' => 'id',
+                        'flattable_column_name' => 'publisher_id',
                     ],
                 ],
                 'type' => 'secondary',
 
-                'flat_table' => 'books_flattable',
+                'flattable' => 'books_flattable',
             ],
 
             //updates_entries_own_publishers_flattable
@@ -43,14 +40,14 @@ class Publisher extends Model
                 ],
                 'wheres' => [
                     [
-                        'col_name' => 'id',
-                        'flat_table_col_name' => 'publisher_id',
+                        'column_name' => 'id',
+                        'flattable_column_name' => 'publisher_id',
                     ],
                 ],
 
                 'type' => 'primary',
 
-                'flat_table' => 'publishers_flattable',
+                'flattable' => 'publishers_flattable',
             ],
 
             //update entries in reading activities flattable
@@ -63,12 +60,12 @@ class Publisher extends Model
 
                 'wheres' => [
                     [
-                        'col_name' => 'id',
-                        'flat_table_col_name' => 'publisher_id',
+                        'column_name' => 'id',
+                        'flattable_column_name' => 'publisher_id',
                     ]
                 ],
 
-                'flat_table' => 'reading_activities_flattable',
+                'flattable' => 'reading_activities_flattable',
                 'type' => 'secondary',
 
                 'changes' => [
@@ -80,8 +77,8 @@ class Publisher extends Model
                         ],
                         'wheres' => [
                             [
-                                'col_name' => 'id',
-                                'flat_table_col_name' => 'publisher_country_id',
+                                'column_name' => 'id',
+                                'flattable_column_name' => 'publisher_country_id',
                             ]
                         ],
                         'type' => 'secondary',

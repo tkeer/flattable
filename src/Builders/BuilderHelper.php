@@ -17,7 +17,7 @@ class BuilderHelper
     /**
      * @var ConfigurationManager
      */
-    protected $configManager;
+    protected $config;
 
     /**
      * DB query callback.
@@ -36,7 +36,7 @@ class BuilderHelper
         ChangesBuilderHelper $changeBuilder,
         Model $model
     ) {
-        $this->configManager = $configurationManager;
+        $this->config = $configurationManager;
 
         $this->setModel($model);
 
@@ -53,7 +53,7 @@ class BuilderHelper
      */
     public function getFlatTableJsonColName()
     {
-        return $this->configManager->getFlatTableJsonColName();
+        return $this->config->getFlatTableJsonColName();
     }
 
     /**
@@ -61,7 +61,7 @@ class BuilderHelper
      */
     public function getFlatTableName()
     {
-        return $this->configManager->getFlatTableName();
+        return $this->config->getFlatTableName();
     }
 
     /**
@@ -71,7 +71,7 @@ class BuilderHelper
      */
     public function makeColumnsArray()
     {
-        $columnsConfig = $this->configManager->getColumnsConfig();
+        $columnsConfig = $this->config->getColumnsConfig();
 
         if (is_callable($columnsConfig)) {
             $data = call_user_func_array($columnsConfig, [$this->getModel()]);
@@ -130,7 +130,7 @@ class BuilderHelper
      */
     private function getSourceModelColumnNames()
     {
-        $columnsConfig = $this->configManager->getColumnsConfig();
+        $columnsConfig = $this->config->getColumnsConfig();
 
         return array_values($columnsConfig);
     }
@@ -143,7 +143,7 @@ class BuilderHelper
      */
     public function buildConstraints($fromOriginalValues = false)
     {
-        $constraintConfigs = $this->configManager->getConstraintsConfig();
+        $constraintConfigs = $this->config->getConstraintsConfig();
 
         if (is_callable($constraintConfigs)) {
             //save this callback, db mangager will call our callback with query
@@ -167,14 +167,14 @@ class BuilderHelper
      */
     private function buildConstraint(array $constraintConfig, $fromOriginalValues): array
     {
-        $columnName = Arr::get($constraintConfig, 'flat_table_col_name');
+        $columnName = Arr::get($constraintConfig, 'flattable_column_name');
         $op = Arr::get($constraintConfig, 'op', '=');
-        $sourceModelColumnName = Arr::get($constraintConfig, 'col_name');
+        $sourceModelColumnName = Arr::get($constraintConfig, 'column_name');
         $useOld = $this->shouldUseModelOldValue($constraintConfig); //whether to use old original model value
         $value = $this->getAttributeValueOfSourceModel($sourceModelColumnName, $fromOriginalValues || $useOld);
 
         return [
-            'col_name' => $columnName,
+            'column_name' => $columnName,
             'op' => $op,
             'value' => $value,
         ];
@@ -218,7 +218,7 @@ class BuilderHelper
      */
     private function shouldIncludeDeletedModel()
     {
-        return $this->configManager->isMany();
+        return $this->config->isMany();
     }
 
     /**
@@ -254,7 +254,7 @@ class BuilderHelper
      */
     public function deletesPrimary()
     {
-        return $this->configManager->deletesPrimary();
+        return $this->config->deletesPrimary();
     }
 
     /**
@@ -281,11 +281,11 @@ class BuilderHelper
      *
      * @return bool
      */
-    public function shouldDeleteFromOld()
+    public function shouldDeleteFromOld(): bool
     {
         $model = $this->getModel();
 
-        $deleteFromOldKeys = $this->configManager->getDeletesFromOldKeys();
+        $deleteFromOldKeys = $this->config->getDeletesFromOldKeys();
 
         $hasDirtyKey = collect($deleteFromOldKeys)
             ->first(function ($key) use ($model) {

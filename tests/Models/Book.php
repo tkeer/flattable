@@ -29,12 +29,12 @@ class Book extends Model
                 'type' => 'primary',
                 'wheres' => [
                     [
-                        'col_name' => 'id',
-                        'flat_table_col_name' => 'book_id',
+                        'column_name' => 'id',
+                        'flattable_column_name' => 'book_id',
                     ],
                 ],
 
-                'flat_table' => 'books_flattable',
+                'flattable' => 'books_flattable',
 
                 'changes' => [
                     'publisher_id' => [
@@ -43,12 +43,12 @@ class Book extends Model
                             'publisher_last_name' => 'last_name',
 
                             /**
-                             * @todo agr yaha country id na add kro, books k lye country ka data nahi ata,
-                             * q k publishers s country id select nahi hui
-                             * iska hal ye ho skta h k jo columns change mei h unka data automatically load kr liya jye
+                             * make sure to add connecting columns for nested 'changes', otherwise proper data would not be fetched
+                             *
+                             * in this particular example, if country id is not fetched, then country_id in nested 'changes'
+                             * config wouldn't be fetched
                              */
                             'publisher_country_id' => 'country_id'
-//                            'publisher_country' => 'country',
                         ],
 
                         'column_name' => 'id', //column name to use for fetching data from source table
@@ -67,8 +67,8 @@ class Book extends Model
                                 ],
                                 'wheres' => [
                                     [
-                                        'col_name' => 'id',
-                                        'flat_table_col_name' => 'publisher_country_id',
+                                        'column_name' => 'id',
+                                        'flattable_column_name' => 'publisher_country_id',
                                     ],
                                 ],
                                 'type' => 'secondary',
@@ -89,19 +89,18 @@ class Book extends Model
 
                 'wheres' => [
                     [
-                        'col_name' => 'publisher_id',
-                        'flat_table_col_name' => 'publisher_id',
+                        'column_name' => 'publisher_id',
+                        'flattable_column_name' => 'publisher_id',
                     ],
                 ],
                 //if publisher id changes, have to remove this tank from old publisher
                 //only delete from old if these keys have changed
                 'delete_from_old_keys' => ['publisher_id'],
 
-                'flat_table' => 'publishers_flattable',
+                'flattable' => 'publishers_flattable',
 
-                'flat_table_json_col_name' => 'books',
+                'flattable_column_name' => 'books',
             ],
-
 
             [
                 'columns' => [
@@ -114,31 +113,18 @@ class Book extends Model
 
                 'wheres' => [
                     [
-                        'col_name' => 'publisher_id',
-                        'flat_table_col_name' => 'publisher_id',
+                        'column_name' => 'publisher_id',
+                        'flattable_column_name' => 'publisher_id',
                     ],
                 ],
                 //if publisher id changes, have to remove this tank from old publisher
                 //only delete from old if these keys have changed
                 'delete_from_old_keys' => ['publisher_id'],
 
-                'flat_table' => 'publishers_flattable',
+                'flattable' => 'publishers_flattable',
 
-                'flat_table_json_col_name' => 'recent_books',
+                'flattable_column_name' => 'recent_books',
             ],
-
-
-
-
-
-
-
-
-
-
-
-
-
             [
                 'columns' => [
                     'book_id' => 'id',
@@ -146,13 +132,13 @@ class Book extends Model
                 ],
                 'wheres' => [
                     [
-                        'col_name' => 'id',
-                        'flat_table_col_name' => 'book_id',
+                        'column_name' => 'id',
+                        'flattable_column_name' => 'book_id',
                     ]
                 ],
 
                 'type' => 'secondary',
-                'flat_table' => 'reading_activities_flattable',
+                'flattable' => 'reading_activities_flattable',
 
                 'changes' => [
                     'publisher_id' => [
@@ -162,8 +148,8 @@ class Book extends Model
                         ],
                         'wheres' => [
                             [
-                                'col_name' => 'id',
-                                'flat_table_col_name' => 'publisher_id',
+                                'column_name' => 'id',
+                                'flattable_column_name' => 'publisher_id',
                             ]
                         ],
                         'type' => 'secondary',
@@ -177,28 +163,17 @@ class Book extends Model
                                 ],
                                 'wheres' => [
                                     [
-                                        'col_name' => 'id',
-                                        'flat_table_col_name' => 'publisher_country_id',
+                                        'column_name' => 'id',
+                                        'flattable_column_name' => 'publisher_country_id',
                                     ]
                                 ],
                                 'type' => 'secondary',
                                 'table' => 'countries'
                             ]
                         ]
-
                     ]
                 ]
             ]
         ];
-    }
-
-    /**
-     * Create a new factory instance for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    protected static function newFactory()
-    {
-        return BookFactory::new();
     }
 }

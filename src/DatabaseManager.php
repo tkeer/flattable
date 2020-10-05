@@ -14,7 +14,7 @@ class DatabaseManager
      */
     protected $db;
 
-    const COL_NAME = 'col_name';
+    const COL_NAME = 'column_name';
     const OP = 'op';
     const VALUE = 'value';
 

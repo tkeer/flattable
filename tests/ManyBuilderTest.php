@@ -14,7 +14,6 @@ class ManyBuilderTest extends TestCase
     public function it_adds_many_entries_where_primary_row_is_created()
     {
         $publisher = factory(Publisher::class)->create();
-//        $publisher = Publisher::factory()->create();
 
         $book = factory(Book::class)->create(['publisher_id' => $publisher->id]);
         $bookFlattable = PublisherFlattable::where('publisher_id', $publisher->id)->firstOrFail();
@@ -49,7 +48,6 @@ class ManyBuilderTest extends TestCase
         $book->update(['name' => $this->faker->name]);
 
         $publisherFlattable = PublisherFlattable::where('publisher_id', $publisher->id)->firstOrFail();
-//        dd($publisherFlattable->books);
         $flattableBooks = json_decode($publisherFlattable->books, true);
         $this->assertEquals($flattableBooks[0]['name'], $book->name);
     }

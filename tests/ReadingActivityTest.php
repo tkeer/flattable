@@ -31,7 +31,6 @@ class ReadingActivityTest extends TestCase
         $models = $this->createEntriesInRelatedTables();
         $activity = $models['activity'];
         $country = $models['country'];
-        $publisher = $models['publisher'];
         $activityFlattable = ReadingActivityFlattable::where('activity_id', $activity->id)->first();
 
         $this->assertEquals($country->name, $activityFlattable->publisher_country_name);
@@ -70,7 +69,6 @@ class ReadingActivityTest extends TestCase
     {
         $models = $this->createEntriesInRelatedTables();
         $activity = $models['activity'];
-        $country = $models['country'];
         $publisher = $models['publisher'];
         $activityFlattable = ReadingActivityFlattable::where('activity_id', $activity->id)->first();
 
@@ -91,9 +89,7 @@ class ReadingActivityTest extends TestCase
     {
         $models = $this->createEntriesInRelatedTables();
         $activity = $models['activity'];
-        $country = $models['country'];
         $book = $models['book'];
-        $publisher = $models['publisher'];
         $activityFlattable = ReadingActivityFlattable::where('activity_id', $activity->id)->first();
 
         $this->assertEquals($book->name, $activityFlattable->book_name);
@@ -111,7 +107,6 @@ class ReadingActivityTest extends TestCase
     {
         $models = $this->createEntriesInRelatedTables();
         $activity = $models['activity'];
-        $country = $models['country'];
         $book = $models['book'];
         $publisher = $models['publisher'];
         $activityFlattable = ReadingActivityFlattable::where('activity_id', $activity->id)->first();
@@ -134,7 +129,6 @@ class ReadingActivityTest extends TestCase
     {
         $models = $this->createEntriesInRelatedTables();
         $activity = $models['activity'];
-        $country = $models['country'];
         $book = $models['book'];
         $publisher = $models['publisher'];
         $activityFlattable = ReadingActivityFlattable::where('activity_id', $activity->id)->first();

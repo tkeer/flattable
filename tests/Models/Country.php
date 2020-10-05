@@ -35,7 +35,7 @@ class Country extends Model
                     $db->where('publisher_country_id', $model->id);
                 },
                 'type' => 'secondary',
-                'flat_table' => 'reading_activities_flattable',
+                'flattable' => 'reading_activities_flattable',
             ]
         ];
     }

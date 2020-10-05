@@ -30,6 +30,18 @@ class FlattableFactory
      * @var ChangesBuilderHelper
      */
     private $changesDataBuilder;
+    /**
+     * @var ConfigurationManager
+     */
+    private $config;
+    /**
+     * @var BuilderHelper
+     */
+    private $common;
+    /**
+     * @var DatabaseManager
+     */
+    private $db;
 
     public function __construct(
         DatabaseManager $databaseManager,
@@ -38,20 +50,23 @@ class FlattableFactory
         ChangesBuilderHelper $changesDataBuilder
     ) {
         $this->common = $common;
-        $this->configManager = $configurationManager;
+        $this->config = $configurationManager;
         $this->db = $databaseManager;
         $this->changesDataBuilder = $changesDataBuilder;
     }
 
     public function create()
     {
-        switch ($this->configManager->type()) {
+        switch ($this->config->type()) {
             case self::TYPE_PRIMARY:
                 return new PrimaryBuilder($this->common, $this->db);
+
             case self::TYPE_MANY:
                 return new ManyBuilder($this->common, $this->db);
+
             case self::TYPE_SECONDARY:
                 return new SecondaryBuilder($this->common, $this->db);
+
             default:
                 throw new \Exception('Type is missing in the configuration');
         }

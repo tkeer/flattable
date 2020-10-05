@@ -22,7 +22,7 @@ class ChangesBuilderHelper
     /**
      * @var ConfigurationManager
      */
-    protected $configManager;
+    protected $config;
 
     /**
      * DB query callback.
@@ -37,7 +37,7 @@ class ChangesBuilderHelper
         Model $model
     ) {
         $this->db = $databaseManager;
-        $this->configManager = $configurationManager;
+        $this->config = $configurationManager;
 
         $this->setModel($model);
 
@@ -70,7 +70,7 @@ class ChangesBuilderHelper
      */
     private function getUpdatedColumnsConfigForChangesData()
     {
-        $updatedColumnsConfig = Arr::get($this->configManager->get(), 'changes', []);
+        $updatedColumnsConfig = Arr::get($this->config->get(), 'changes', []);
 
         $updatedColumns = $this->getModel()->getDirty();
 
@@ -174,9 +174,8 @@ class ChangesBuilderHelper
             $values = array_values($changesTableData);
 
             //if data returned for changes data is null, fill selects column with null values
-            if (!$values) {
-                $values = array_map(function ($value) {
-                }, $flatTableColumnsThatChanges);
+            if (! $values) {
+                $values = array_fill(0, count($flatTableColumnsThatChanges), null);
             }
 
             //combine flat table columns and changes table data
@@ -210,7 +209,7 @@ class ChangesBuilderHelper
         $tableName = Arr::get($changeConfig, 'table');
 
         $wheres[] = [
-            'col_name' => Arr::get($changeConfig, 'column_name', 'id'),
+            'column_name' => Arr::get($changeConfig, 'column_name', 'id'),
             'op' => '=',
             'value' => data_get($model, $tableColumnName),
         ];

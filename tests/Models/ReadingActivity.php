@@ -26,12 +26,12 @@ class ReadingActivity extends Model
                 ],
                 'wheres' => [
                     [
-                        'col_name' => 'id',
-                        'flat_table_col_name' => 'activity_id',
+                        'column_name' => 'id',
+                        'flattable_column_name' => 'activity_id',
                     ],
                 ],
 
-                'flat_table' => 'reading_activities_flattable',
+                'flattable' => 'reading_activities_flattable',
 
                 'type' => 'primary',
 
