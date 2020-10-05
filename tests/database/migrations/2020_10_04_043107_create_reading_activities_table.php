@@ -17,6 +17,7 @@ class CreateReadingActivitiesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('book_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

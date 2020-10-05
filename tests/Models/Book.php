@@ -2,14 +2,12 @@
 
 namespace Tkeer\Flattable\Test\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Tkeer\Flattable\Flattable;
-use Tkeer\Flattable\Test\Database\Factories\BookFactory;
 
 class Book extends Model
 {
-    use Flattable/*, HasFactory*/;
+    use Flattable;
 
     protected $guarded = [];
 
@@ -78,7 +76,6 @@ class Book extends Model
                                 'table' => 'countries'
                             ]
                         ]
-
                     ]
                 ]
             ],
@@ -120,16 +117,6 @@ class Book extends Model
                         'col_name' => 'publisher_id',
                         'flat_table_col_name' => 'publisher_id',
                     ],
-                ],
-
-                //only update flat table if active model pass these constraints
-                'model2_constraints' => [
-                    [
-                        'attribute' => 'published_at',
-                        'op' => '>=',
-                        'value' => '2020',
-                    ],
-
                 ],
                 //if publisher id changes, have to remove this tank from old publisher
                 //only delete from old if these keys have changed

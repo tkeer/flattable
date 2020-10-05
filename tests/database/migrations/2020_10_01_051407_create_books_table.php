@@ -19,6 +19,7 @@ class CreateBooksTable extends Migration
             $table->date('published_at')->nullable();
             $table->unsignedBigInteger('publisher_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('publisher_id')->references('id')->on('publishers')->onDelete('set null');
         });

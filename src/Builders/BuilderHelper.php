@@ -73,11 +73,15 @@ class BuilderHelper
     {
         $columnsConfig = $this->configManager->getColumnsConfig();
 
+        if (is_callable($columnsConfig)) {
+            $data = call_user_func_array($columnsConfig, [$this->getModel()]);
+            return $data;
+        }
+
         //cols to be updated
         $flatTableColumns = array_keys($columnsConfig);
 
         $data = $this->getDataFromModel();
-
         $data = array_combine($flatTableColumns, $data);
 
         //get data for flat table when related model ids changes

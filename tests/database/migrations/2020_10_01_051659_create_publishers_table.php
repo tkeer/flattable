@@ -19,6 +19,7 @@ class CreatePublishersTable extends Migration
             $table->string('last_name');
             $table->unsignedBigInteger('country_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

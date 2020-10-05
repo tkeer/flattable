@@ -91,15 +91,4 @@ class Publisher extends Model
             ]
         ];
     }
-
-    /**
-     * Create a new factory instance for the model.
-     *
-     * @return Factory
-     */
-    protected static function newFactory()
-    {
-        return PublisherFactory::new();
-    }
-
 }

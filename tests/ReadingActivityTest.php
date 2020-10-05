@@ -201,7 +201,6 @@ class ReadingActivityTest extends TestCase
         $models = $this->createEntriesInRelatedTables();
         $activity = $models['activity'];
         $country = $models['country'];
-        $publisher = $models['publisher'];
         $activityFlattable = ReadingActivityFlattable::where('activity_id', $activity->id)->first();
 
         $this->assertNotNull($activityFlattable->publisher_country_id);
@@ -220,7 +219,6 @@ class ReadingActivityTest extends TestCase
     {
         $models = $this->createEntriesInRelatedTables();
         $activity = $models['activity'];
-        $country = $models['country'];
         $publisher = $models['publisher'];
         $activityFlattable = ReadingActivityFlattable::where('activity_id', $activity->id)->first();
 

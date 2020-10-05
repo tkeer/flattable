@@ -5,9 +5,11 @@ namespace Tkeer\Flattable\Test\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tkeer\Flattable\Flattable;
+use function Tkeer\Flattable\Builders\is_deleted;
 
 class Country extends Model
 {
@@ -21,16 +23,17 @@ class Country extends Model
     {
         return [
             [
-                'columns' => [
-                    'publisher_country_name' => 'name',
-                    'publisher_country_id' => 'id'
-                ],
-                'wheres' => [
-                    [
-                        'col_name' => 'id',
-                        'flat_table_col_name' => 'publisher_country_id',
-                    ]
-                ],
+                'columns' => function (Country $country) {
+                    // when secondary row is deleted, it's data should be removed from flattable
+                    $country = is_deleted($country) ? new Country : $country;
+                    return [
+                        'publisher_country_name' => $country->name,
+                        'publisher_country_id' => $country->id
+                    ];
+                },
+                'wheres' => function (Builder $db, Country $model) {
+                    $db->where('publisher_country_id', $model->id);
+                },
                 'type' => 'secondary',
                 'flat_table' => 'reading_activities_flattable',
             ]
