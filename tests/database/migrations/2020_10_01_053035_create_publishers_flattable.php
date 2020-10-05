@@ -18,6 +18,7 @@ class CreatePublishersFlattable extends Migration
             $table->unsignedBigInteger('publisher_id');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
+            $table->string('name')->nullable();
             $table->longText('books')->nullable();
             $table->longText('recent_books')->nullable();
         });

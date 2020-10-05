@@ -3,7 +3,6 @@
 namespace Tkeer\Flattable\Test;
 
 use Tkeer\Flattable\Test\Models\Book;
-use Tkeer\Flattable\Test\Models\BookFlattable;
 use Tkeer\Flattable\Test\Models\Country;
 use Tkeer\Flattable\Test\Models\Publisher;
 use Tkeer\Flattable\Test\Models\ReadingActivity;

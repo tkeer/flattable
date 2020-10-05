@@ -71,4 +71,9 @@ class FlattableFactory
                 throw new \Exception('Type is missing in the configuration');
         }
     }
+
+    public function getVoidBuilder()
+    {
+        return new VoidBuilder;
+    }
 }

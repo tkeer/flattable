@@ -99,14 +99,67 @@ class BuilderHelper
      */
     public function getDataFromModel()
     {
-        $updateModelColumnsNames = $this->getSourceModelColumnNames();
+        $sourceModelColumnNames = $this->getSourceModelColumnNames();
 
         //map update model column' names to respective data
         $data = array_map(function ($columnName) {
             return $this->getModelValueByColumnName($columnName);
-        }, $updateModelColumnsNames);
+        }, $sourceModelColumnNames);
 
         return $data;
+    }
+
+    public function hasDirtyAttribute()
+    {
+        $columnsConfig = $this->config->getColumnsConfig();
+
+        // always dirty for callback
+        if (is_callable($columnsConfig)) {
+            return true;
+        }
+
+        $model = $this->getModel();
+
+        if (is_deleted($model)) {
+            return true;
+        }
+
+        $sourceColumnNames = $this->getSourceModelColumnNames();
+        $changesConfig = Arr::get($this->config->get(), 'changes', []);
+
+        $sourceColumnNames = array_merge($sourceColumnNames, array_keys($changesConfig));
+
+        // is any given attribute is dirty
+        if ($model->isDirty($sourceColumnNames)) {
+            return true;
+        }
+
+        // if none of the attributes is dirty, we will check for accessors
+
+        // can't use getDirty function,
+        // fetching for accessors
+        $currentAttributes = collect($sourceColumnNames)->mapWithKeys(function ($attribute, $key) use ($model) {
+            return [$attribute => $model->$attribute];
+        })->toArray();
+
+        $modelAttributes = $model->getAttributes();
+        $original = $model->getOriginal();
+
+        // set original attributes as current
+        // so that we can analyze return type of accessors
+        $model->setRawAttributes($original);
+
+        $originalAttributes = collect($sourceColumnNames)->mapWithKeys(function ($attribute, $key) use ($model) {
+            return [$attribute => $model->$attribute];
+        })->toArray();
+
+        //revert back to original
+        $model->setRawAttributes($modelAttributes);
+
+        return (bool) collect($currentAttributes)
+            ->first(function ($value, $key) use ($originalAttributes) {
+                return $value !== $originalAttributes[$key];
+            });
     }
 
     private function getModelValueByColumnName($columnName)

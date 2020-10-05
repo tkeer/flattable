@@ -11,6 +11,11 @@ class Publisher extends Model
 
     protected $guarded = [];
 
+    public function getNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
     public function flattableConfig()
     {
         return [
@@ -36,6 +41,7 @@ class Publisher extends Model
                 'columns' => [
                     'first_name' => 'first_name',
                     'last_name' => 'last_name',
+                    'name' => 'name',
                     'publisher_id' => 'id',
                 ],
                 'wheres' => [

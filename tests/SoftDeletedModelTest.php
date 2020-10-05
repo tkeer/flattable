@@ -2,18 +2,11 @@
 
 namespace Tkeer\Flattable\Test;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Arr;
-use Tkeer\Flattable\DatabaseManager;
 use Tkeer\Flattable\Test\Models\Book;
 use Tkeer\Flattable\Test\Models\BookFlattable;
-use Tkeer\Flattable\Test\Models\Country;
 use Tkeer\Flattable\Test\Models\Publisher;
 use Tkeer\Flattable\Test\Models\PublisherFlattable;
-use Tkeer\Flattable\Test\Models\ReadingActivity;
 use Tkeer\Flattable\Test\Models\ReadingActivityFlattable;
-use Tkeer\Flattable\Test\Models\SoftDeletedAuthor;
 use Tkeer\Flattable\Test\Models\SoftDeletedBook;
 use Tkeer\Flattable\Test\Models\SoftDeletedCountry;
 use Tkeer\Flattable\Test\Models\SoftDeletedPublisher;

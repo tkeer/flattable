@@ -17,6 +17,7 @@ class CreatePublishersTable extends Migration
             $table->bigIncrements('id');
             $table->string('first_name');
             $table->string('last_name');
+            $table->dateTime('established_at')->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
             $table->timestamps();
             $table->softDeletes();

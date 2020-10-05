@@ -2,9 +2,6 @@
 
 namespace Tkeer\Flattable\Test;
 
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Arr;
-use Tkeer\Flattable\DatabaseManager;
 use Tkeer\Flattable\Test\Models\Book;
 use Tkeer\Flattable\Test\Models\BookFlattable;
 use Tkeer\Flattable\Test\Models\Country;
@@ -45,6 +42,7 @@ class PrimaryBuilderTest extends TestCase
      */
     public function it_deletes_flattable_entry_when_main_table_entry_is_deleted()
     {
+        session(['a' => 'a']);
         $book = factory(Book::class)->create();
         $bookFlattable = BookFlattable::where('book_id', $book->id)->firstOrFail();
 
