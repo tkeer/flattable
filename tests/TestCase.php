@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Tkeer\Flattable\FlattableServiceProvider;
 use Tkeer\Flattable\Test\Models\Author;
 use Tkeer\Flattable\Test\Models\Book;
 use Tkeer\Flattable\Test\Models\BookFlattable;
@@ -25,5 +26,10 @@ class TestCase extends OrchestraTestCase
 
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
         $this->withFactories(__DIR__ . '/database/factories');
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [FlattableServiceProvider::class];
     }
 }

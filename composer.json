@@ -33,12 +33,20 @@
   "require": {
     "php": "^7.3",
     "illuminate/support": "^8.0",
-    "illuminate/database": "^8.0"
+    "illuminate/database": "^8.0",
+    "illuminate/config": "^8.0"
   },
   "require-dev": {
     "orchestra/testbench": "^6.0|^5.2|^4.8|^3.8.6|^3.7.8|^3.6.7|^3.5.4",
     "laravel/legacy-factories": "^1.0",
     "phpunit/phpunit": "^6.5|^7.5|^8.4|^9.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Tkeer\\Flattable\\FlattableServiceProvider"
+      ]
+    }
   },
   "minimum-stability": "dev",
   "prefer-stable": true

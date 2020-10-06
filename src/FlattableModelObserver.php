@@ -45,6 +45,14 @@ class FlattableModelObserver
             return;
         }
 
+        if (config('flattable.disabled')) {
+            return;
+        }
+
+        if (app()->runningInConsole() && config('flattable.console.run') === false) {
+            return;
+        }
+
         $configs = $model->flattableConfig();
 
         foreach ($configs as $config) {

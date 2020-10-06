@@ -10,7 +10,7 @@ use Tkeer\Flattable\Test\Models\PublisherFlattable;
 class GeneralTest extends TestCase
 {
     /**
-     * @t2est
+     * @test
      */
     public function it_will_not_create_new_entry_flattable_when_main_table_entry_is_created_when_flattable_is_disabled()
     {
@@ -106,5 +106,32 @@ class GeneralTest extends TestCase
 
         $publisher->update(['established_at' => now()]);
         $this->assertFalse($queryExecuted);
+    }
+
+    /**
+     * @test
+     */
+    public function it_wont_run_when_flattable_is_disabled_in_config()
+    {
+        config()->set('flattable.disabled', true);
+
+        $publisher = factory(Publisher::class)->create();
+        $flattable = PublisherFlattable::where('publisher_id', $publisher->id)->first();
+
+        $this->assertNull($flattable);
+    }
+
+    /**
+     * @test
+     */
+    public function it_wont_run_when_flattable_is_console_run_disabled_in_config()
+    {
+        config()->set('flattable.console.run', false);
+
+        $publisher = factory(Publisher::class)->create();
+        $flattable = PublisherFlattable::where('publisher_id', $publisher->id)->first();
+
+        $this->assertNull($flattable);
+
     }
 }
