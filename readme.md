@@ -32,6 +32,8 @@ Usage
 Learn with examples
 -------
 
+> For more detailed examples, please review the [tests](https://github.com/tkeer/flattable/tree/master/tests)
+
 ***Basic DB structure***
 
 1. We have books, publishers, countries, and reading_activities tables
@@ -304,7 +306,7 @@ Required when type is `many`. It holds the names of columns, any change in these
 
 Configurations
 --------------
-### Disable flattable
+### Disable flattable a single model
 ```php
 Book::disableFlattable();
 
@@ -313,6 +315,19 @@ $bookFlattable = BookFlattable::where('book_id', $book->id)->first();
 $this->assertNull($bookFlattable);
 
 Book::enableFlattable();
+```
+
+### Disable flattable for all models
+
+set `disabled` to `true` in `config/flattabe.php`
+
+```php
+return [
+    'console' => [
+        'run' => true
+    ],
+    'disabled' => true
+];
 ```
 
 ### Using callbacks
