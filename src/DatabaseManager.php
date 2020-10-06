@@ -55,8 +55,7 @@ class DatabaseManager
         }
 
         foreach ($wheres as $where) {
-            $query->where(Arr::get($where, self::COL_NAME), Arr::get($where, self::OP, '='),
-                Arr::get($where, self::VALUE));
+            $query->where($where[self::COL_NAME], $where[self::OP] ?? '=', $where[self::VALUE]);
         }
     }
 

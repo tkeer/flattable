@@ -224,7 +224,7 @@ class ReadingActivityTest extends TestCase
 
     private function createEntriesInRelatedTables()
     {
-        $country = Country::create(['name' => $this->faker->country]);
+        $country = Country::create(['name' => $this->faker->country, 'id' => $this->faker->randomDigitNotNull]);
         $publisher = factory(Publisher::class)->create(['country_id' => $country->id]);
         $book = factory(Book::class)->create(['publisher_id' => $publisher->id]);
         $activity = ReadingActivity::create(['book_id' => $book->id]);

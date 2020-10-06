@@ -56,7 +56,7 @@ class ChangesBuilderHelper
      */
     public function getChangesData()
     {
-        $updatedColumnsConfig = $this->getUpdatedColumnsConfigForChangesData();
+        $updatedColumnsConfig = $this->getChangesConfigForUpdatedColumnsOnly();
 
         $changeData = $this->buildDataForChangesColumns($updatedColumnsConfig);
 
@@ -68,16 +68,12 @@ class ChangesBuilderHelper
      *
      * @return array
      */
-    private function getUpdatedColumnsConfigForChangesData()
+    private function getChangesConfigForUpdatedColumnsOnly()
     {
         $updatedColumnsConfig = Arr::get($this->config->get(), 'changes', []);
 
-        $updatedColumns = $this->getModel()->getDirty();
-
         //assuming, we'll be managing only foreign key, trim out null changes
-        $updatedColumns = array_filter($updatedColumns, function ($updatedColumn) {
-            return (bool)$updatedColumn;
-        });
+        $updatedColumns = array_filter($this->getModel()->getDirty());
 
         $updatedColumnNames = array_keys($updatedColumns);
 
@@ -116,17 +112,17 @@ class ChangesBuilderHelper
      * build data for single columns config.
      *
      * @param $changeConfig
-     * @param $tableColumnName string flat table column name
+     * @param $modelColumnName string flat table column name
      * @param $model
      * @return array
      */
-    private function buildDataForChangesColumn($changeConfig, $tableColumnName, $model)
+    private function buildDataForChangesColumn($changeConfig, $modelColumnName, $model)
     {
         $columnsConfig = Arr::get($changeConfig, 'columns');
 
         $selects = array_values($columnsConfig);
 
-        $changesTableData = $this->getDataFromTableForChangesColumn($changeConfig, $tableColumnName, $model, $selects);
+        $changesTableData = $this->getDataFromTableForChangesColumn($changeConfig, $modelColumnName, $model, $selects);
 
         $columnsConfig = Arr::get($changeConfig, 'columns');
         $flatTableColumnsThatChanges = array_keys($columnsConfig);
@@ -154,7 +150,7 @@ class ChangesBuilderHelper
      * @param $model
      * @return array
      */
-    private function buildDataForInsideChangesColumn(array $configs, $model)
+    private function buildDataForInsideChangesColumn(array $configs, array $model)
     {
         $flatTableData = [];
 
@@ -163,9 +159,7 @@ class ChangesBuilderHelper
 
             $selects = array_values($columnsConfig);
 
-            $modelColumnName = Arr::get($columnConfig, 'model_column_name', 'id');
-
-            $changesTableData = $this->getDataFromTableForChangesColumn($columnConfig, $modelColumnName, $model,
+            $changesTableData = $this->getDataFromTableForChangesColumn($columnConfig, $columnName, $model,
                 $selects);
 
             $flatTableColumnsThatChanges = array_keys($columnsConfig);
@@ -199,22 +193,36 @@ class ChangesBuilderHelper
      * load data from table for change config
      *
      * @param $changeConfig
-     * @param $tableColumnName
+     * @param $modelColumnName
      * @param $model
      * @param $selects
      * @return array
      */
-    private function getDataFromTableForChangesColumn($changeConfig, $tableColumnName, $model, $selects)
+    private function getDataFromTableForChangesColumn($changeConfig, $modelColumnName, $model, $selects)
     {
         $tableName = Arr::get($changeConfig, 'table');
 
-        $wheres[] = [
-            'column_name' => Arr::get($changeConfig, 'column_name', 'id'),
-            'op' => '=',
-            'value' => data_get($model, $tableColumnName),
-        ];
+        $wheres = $this->buildWhereConstraintsForQueryBuilder($modelColumnName, $changeConfig, $model);
 
-        return $this->db->first($tableName, $selects, $wheres);
+        $data = $this->db->first($tableName, $selects, $wheres);
+
+        return $data;
+    }
+
+    private function buildWhereConstraintsForQueryBuilder(string $changesColumn, array $changeConfig, $model)
+    {
+        $whereConstraints = Arr::get($changeConfig, 'where', ['id' => $changesColumn]);
+
+        return collect($whereConstraints)
+            ->mapWithKeys(function ($modelColumn, $tableColumn) use ($model) {
+                return [
+                    [
+                        'column_name' => $tableColumn,
+                        'value' => data_get($model, $modelColumn)
+                    ]
+                ];
+            })
+            ->toArray();
     }
 
     public function setModel(Model $model)

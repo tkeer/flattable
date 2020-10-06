@@ -19,22 +19,6 @@ class Publisher extends Model
     public function flattableConfig()
     {
         return [
-            // updates entries in books flattable
-            [
-                'columns' => [
-                    'publisher_first_name' => 'first_name',
-                    'publisher_last_name' => 'last_name',
-                ],
-                'wheres' => [
-                    [
-                        'column_name' => 'id',
-                        'flattable_column_name' => 'publisher_id',
-                    ],
-                ],
-                'type' => 'secondary',
-
-                'flattable' => 'books_flattable',
-            ],
 
             //updates_entries_own_publishers_flattable
             [
@@ -45,16 +29,27 @@ class Publisher extends Model
                     'publisher_id' => 'id',
                 ],
                 'wheres' => [
-                    [
-                        'column_name' => 'id',
-                        'flattable_column_name' => 'publisher_id',
-                    ],
+                    'publisher_id' => 'id',
                 ],
 
                 'type' => 'primary',
 
                 'flattable' => 'publishers_flattable',
             ],
+            // updates entries in books flattable
+            [
+                'columns' => [
+                    'publisher_first_name' => 'first_name',
+                    'publisher_last_name' => 'last_name',
+                ],
+                'wheres' => [
+                    'publisher_id' => 'id',
+                ],
+                'type' => 'secondary',
+
+                'flattable' => 'books_flattable',
+            ],
+
 
             //update entries in reading activities flattable
 
@@ -65,10 +60,7 @@ class Publisher extends Model
                 ],
 
                 'wheres' => [
-                    [
-                        'column_name' => 'id',
-                        'flattable_column_name' => 'publisher_id',
-                    ]
+                    'publisher_id' => 'id',
                 ],
 
                 'flattable' => 'reading_activities_flattable',
@@ -81,13 +73,9 @@ class Publisher extends Model
                             'publisher_country_name' => 'name',
                             'publisher_country_id' => 'id'
                         ],
-                        'wheres' => [
-                            [
-                                'column_name' => 'id',
-                                'flattable_column_name' => 'publisher_country_id',
-                            ]
+                        'where' => [
+                            'id' => 'country_id'
                         ],
-                        'type' => 'secondary',
                         'table' => 'countries'
                     ]
                 ]

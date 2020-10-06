@@ -42,7 +42,6 @@ class PrimaryBuilderTest extends TestCase
      */
     public function it_deletes_flattable_entry_when_main_table_entry_is_deleted()
     {
-        session(['a' => 'a']);
         $book = factory(Book::class)->create();
         $bookFlattable = BookFlattable::where('book_id', $book->id)->firstOrFail();
 

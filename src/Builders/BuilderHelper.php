@@ -206,9 +206,13 @@ class BuilderHelper
             return $this->queryCallback();
         }
 
-        return collect($constraintConfigs)->map(function ($constraintConfig) use ($fromOriginalValues) {
-            return $this->buildConstraint($constraintConfig, $fromOriginalValues);
-        });
+        return collect($constraintConfigs)
+            ->mapWithKeys(function ($sourceTableColumn, $flattableColumn) use ($fromOriginalValues) {
+                return [
+                    $this->buildConstraint($sourceTableColumn, $flattableColumn, $fromOriginalValues)
+                ];
+            })
+            ->toArray();
     }
 
     /**
@@ -218,8 +222,20 @@ class BuilderHelper
      * @param bool $fromOriginalValues
      * @return array
      */
-    private function buildConstraint(array $constraintConfig, $fromOriginalValues): array
+    private function buildConstraint($constraintConfig, $flattableColumnName, $fromOriginalValues): array
     {
+        $model = $this->getModel();
+
+        // if user has given key value pair
+        if (! is_array($constraintConfig)) {
+            $shouldGetOldValue = $fromOriginalValues || !$model->wasRecentlyCreated;
+            return [
+                'column_name' => $flattableColumnName,
+                'op' => '=',
+                'value' => $this->getAttributeValueOfSourceModel($constraintConfig, $shouldGetOldValue)
+            ];
+        }
+
         $columnName = Arr::get($constraintConfig, 'flattable_column_name');
         $op = Arr::get($constraintConfig, 'op', '=');
         $sourceModelColumnName = Arr::get($constraintConfig, 'column_name');

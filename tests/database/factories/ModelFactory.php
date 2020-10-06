@@ -15,6 +15,7 @@ $factory->define(Author::class, function (Faker\Generator $faker) {
 
 $factory->define(Book::class, function (Faker\Generator $faker) {
     return [
+        'id' => $faker->unique()->randomDigitNotNull,
         'name' => $this->faker->name,
         'published_at' => $this->faker->dateTimeBetween(),
     ];
@@ -22,6 +23,7 @@ $factory->define(Book::class, function (Faker\Generator $faker) {
 
 $factory->define(Publisher::class, function (Faker\Generator $faker) {
     return [
+        'id' => $faker->unique()->randomDigitNotNull,
         'first_name' => $this->faker->firstName,
         'last_name' => $this->faker->lastName,
     ];
