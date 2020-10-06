@@ -49,7 +49,7 @@ class ReadingActivity extends Model
                                 'columns' => [
                                     'publisher_first_name' => 'first_name',
                                     'publisher_last_name' => 'last_name',
-                                    'publisher_country_id' => 'country_id',
+//                                    'publisher_country_id' => 'country_id',
                                     'publisher_id' => 'id'
                                 ],
                                 'where' => [

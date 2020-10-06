@@ -122,13 +122,18 @@ class ChangesBuilderHelper
 
         $selects = array_values($columnsConfig);
 
+        // add changes columns which are missing in the select
+        $notPresent = array_diff(array_keys($changeConfig['changes'] ?? []), $selects);
+        $selects = array_merge($selects, $notPresent);
+
         $changesTableData = $this->getDataFromTableForChangesColumn($changeConfig, $modelColumnName, $model, $selects);
 
         $columnsConfig = Arr::get($changeConfig, 'columns');
         $flatTableColumnsThatChanges = array_keys($columnsConfig);
 
+        // remove additionally added columns to nested changes data
         //remove column names
-        $values = array_values($changesTableData);
+        $values = array_values(Arr::except($changesTableData, $notPresent));
 
         //combine flat table columns and changes table data
         $changesData = array_combine($flatTableColumnsThatChanges, $values);
@@ -155,17 +160,22 @@ class ChangesBuilderHelper
         $flatTableData = [];
 
         foreach ($configs as $columnName => $columnConfig) {
-            $columnsConfig = Arr::get($columnConfig, 'columns');
+            $columns = Arr::get($columnConfig, 'columns');
 
-            $selects = array_values($columnsConfig);
+            $selects = array_values($columns);
+
+            // add changes columns which are missing in the select
+            $notPresent = array_diff(array_keys($columnConfig['changes'] ?? []), $selects);
+            $selects = array_merge($selects, $notPresent);
 
             $changesTableData = $this->getDataFromTableForChangesColumn($columnConfig, $columnName, $model,
                 $selects);
 
-            $flatTableColumnsThatChanges = array_keys($columnsConfig);
+            $flatTableColumnsThatChanges = array_keys($columns);
 
+            // remove additionally added columns to nested changes data
             //remove column names, get only values
-            $values = array_values($changesTableData);
+            $values = array_values(Arr::except($changesTableData, $notPresent));
 
             //if data returned for changes data is null, fill selects column with null values
             if (! $values) {
