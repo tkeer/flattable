@@ -81,7 +81,7 @@ public function getFlattableConfig(): array
 ### Publisher in the book's flattable.
 > it also updates flattable with new publisher when book's publisher is changed
 
-Extend flattable config of the `Book` model given above, add config under `changes` key.
+Extend flattable config used above, and add config for publisher under `changes` key.
 
 ```php
 public function getFlattableConfig(): array
@@ -98,7 +98,7 @@ public function getFlattableConfig(): array
         // foreign colum name
         // we will update changes data only if this column is update(dirty)
 
-      'publisher_id' => [
+        'publisher_id' => [
 
           'columns' => [
 
@@ -165,7 +165,7 @@ public function flattableConfig()
 ```
 
 ### Update book's flattable on country update
-> Assigns null values when country is deleted
+> Assigns null values to flattable when country is deleted
 
 In `flattableConfig()` of the `Country` model
 
@@ -273,21 +273,21 @@ It describes the relation type b/w flattable and source table
 
 we have three types
 
-##### 1. Primary
+##### 1. primary
 
 create, update, and delete do the same operation
 for the flattable.
 
 For example, books relation with books_flattable
 
-##### 2. Secondary
+##### 2. secondary
 
 Same as primary, but deleting model will not delete the related entry in the flattable.
 Instead it will assign null values to the related columns in the flattable.
 
 For example, publishers relationship with books_flattable. 
 
-##### 3. Many
+##### 3. many
 
 For one to many relationship. With this type, we can store more than one entries
  in the flattable.
@@ -307,7 +307,7 @@ Configurations
 ### Disable flattable
 ```php
 Book::disableFlattable();
-$this->assertTrue(Book::$flattableDisabled);
+
 $book = factory(Book::class)->create();
 $bookFlattable = BookFlattable::where('book_id', $book->id)->first();
 $this->assertNull($bookFlattable);
@@ -323,6 +323,7 @@ For `columns` callback, you will receive model as parameter, and you should retu
 ```php
 [
   ...
+
   'columns' => function (Country $country) {
     // when secondary row is deleted, it's data should be removed from flattable
     return [

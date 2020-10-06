@@ -76,7 +76,6 @@ class Book extends Model
                 'wheres' => [
                     'publisher_id' => 'publisher_id',
                 ],
-                //if publisher id changes, have to remove this tank from old publisher
                 //only delete from old if these keys have changed
                 'delete_from_old_keys' => ['publisher_id'],
 
