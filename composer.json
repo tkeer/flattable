@@ -1,11 +1,12 @@
 {
   "name": "tkeer/flattable",
-  "description": "Catch laravel emails for local development",
+  "description": "Combine multiple tables in one flat god table.",
   "keywords": [
     "laravel",
-    "local",
-    "development",
-    "mail"
+    "eloquent",
+    "combine",
+    "flat table",
+    "god"
   ],
   "authors": [
     {
