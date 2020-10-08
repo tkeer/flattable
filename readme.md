@@ -15,7 +15,7 @@ Installation
 Install the package via Composer:
 
 ```bash
-$ composer require tkeer/flattable
+composer require tkeer/flattable
 ```
 
 ### Laravel version Compatibility
@@ -46,7 +46,7 @@ We want data of the book, book's publisher and country of the book's publisher i
 
 <img height="300px" src="https://user-images.githubusercontent.com/20635376/95441979-3da4d100-0974-11eb-9855-1f902e1eb3df.png" alt="laravel flattable">
 
-As book is main table here, we will add flattable configuration in the book's model, and the `type` should be `primary`, more on type [here](#config-array-explanation).
+As book is main table here, we will add flattable configuration in the book's model, and the `type` should be `primary`, more on type [here](#flattable-config-explanation).
 
 To explain the problem, we will break our configurations into 3 parts. For detailed configuration for the book, please see first config entry of [book](https://github.com/tkeer/flattable/blob/master/tests/Models/Book.php#L22)'s model in tests.
 
@@ -371,7 +371,7 @@ Book::enableFlattable();
 
 Publish flattable config
 ```shell script
-php artisan vendor:publish --provider="Spatie\Flattable\FlattableServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Tkeer\Flattable\FlattableServiceProvider" --tag="config"
 ```
 set `disabled` to `true` in `config/flattabe.php`
 
