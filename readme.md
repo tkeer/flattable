@@ -32,16 +32,25 @@ Usage
 Learn with examples
 -------
 
-> For more detailed examples, please review the [tests](https://github.com/tkeer/flattable/tree/master/tests)
+It is easier to explain with the help of examples. For more detailed examples, please review the [tests](https://github.com/tkeer/flattable/tree/master/tests)
 
-***Basic DB structure***
 
-1. We have books, publishers, countries, and reading_activities tables
+***Example DB structure***
+
+1. We have books, publishers, countries tables
 2. A book belongs to a publisher
 3. A publisher belongs to a country
-4. A reading activity has a book
 
-### Add books in book's flattable
+
+We want data of the book, book's publisher and country of the book's publisher in book's flattable (books_flattable)
+
+<img height="300px" src="https://user-images.githubusercontent.com/20635376/95441979-3da4d100-0974-11eb-9855-1f902e1eb3df.png" alt="laravel flattable">
+
+As book is main table here, we will add flattable configuration in the book's model, and the `type` should be `primary`, more on type [here](#config-array-explanation).
+
+To explain the problem, we will break our configurations into 3 parts. For detailed configuration for the book, please see first config entry of [book](https://github.com/tkeer/flattable/blob/master/tests/Models/Book.php#L22)'s model in tests.
+
+### 1. Add books in book's flattable
 > also updates/deletes when related book is updated or deleted
 
 in `getFlattableConfig()` method of the `Book` model
@@ -80,7 +89,7 @@ public function getFlattableConfig(): array
 }
 ```
 
-### Publisher in the book's flattable.
+### 2. Publisher in the book's flattable.
 > it also updates flattable with new publisher when book's publisher is changed
 
 Extend flattable config used above, and add config for publisher under `changes` key.
@@ -119,7 +128,7 @@ public function getFlattableConfig(): array
 
 ```
 
-### Country of the publisher in book's flattable
+### 3. Country of the publisher in book's flattable
 
 ```php
 [
@@ -141,6 +150,13 @@ public function getFlattableConfig(): array
 ```
 
 you can go as many nested level as you want using `changes` attribute, ie `changes` attribute within `changes` attribute.
+
+
+With added configuration so far, any change in the book will automatically update the book's flattable. Even if the publisher of the book is changed, the flattable will automatically be updated with new publisher data.
+
+What if publisher itself is updated, ie first_name of the publisher is updated, or the country of publisher is updated. For this we have to implement flattable for the `Publisher` and `Country` models and add flattable config in both models, and the config `type` should be `secondary`.
+
+See below
 
 ### Update book's flattable on publisher update
 
@@ -191,8 +207,20 @@ public function flattableConfig()
 }
 ```
 
+
 ### Books in Publisher's flat table
-In `Book` model
+
+So far we have considered one-to-one relations, book belongs to one publisher, publisher belongs to one country.
+
+What if there is one to many relationship between two tables.
+
+For example, a publisher can have many books, and whenever any book is added, we want to add this book in the publisher's flattble. 
+
+<img height="300px" src="https://user-images.githubusercontent.com/20635376/95446814-426c8380-097a-11eb-893c-04017763af7c.png">
+
+
+Add one more flattable config in `Book` model, the config `type` for this relation should be `many`.
+
 
 ```php
 public function flattableConfig(): array
@@ -225,10 +253,26 @@ public function flattableConfig(): array
 ```
 
 
-Config array explanation
+Flattable config explanation
 -------------
 
 Flattable config has following attributes
+
+[1. columns](#1-columns)
+
+[2. wheres](#2-wheres)
+
+[3. flattable](#3-flattable)
+
+[4. changes](#4-changes)
+
+[5. type](#5-type)
+
+[6. flattable_column_name](#6-flattable_column_name)
+
+[7. delete_from_old_keys](#7-delete_from_old_keys)
+
+[8. deletes_primary](#8-deletes_primary)
 
 #### 1. columns
 
@@ -303,6 +347,12 @@ Required when type is `many`. It holds the column name of the flattable, where j
 ### 7. delete_from_old_keys
 Required when type is `many`. It holds the names of columns, any change in these columns will reload the related json data of related flattable column.
 
+### 8. deletes_primary
+primary `type` automaically deletes entry from the flattable, when entry from the main table is deleted, and
+secondary type store null values against related entries in flattable.
+
+If you want that deleting an entry for secondary type also deletes related
+flattable entry, set `deletes_primary` flag to true.
 
 Configurations
 --------------
@@ -319,6 +369,10 @@ Book::enableFlattable();
 
 ### Disable flattable for all models
 
+Publish flattable config
+```shell script
+php artisan vendor:publish --provider="Spatie\Flattable\FlattableServiceProvider" --tag="config"
+```
 set `disabled` to `true` in `config/flattabe.php`
 
 ```php
@@ -329,6 +383,14 @@ return [
     'disabled' => true
 ];
 ```
+
+### Disable flattable for console
+
+You can optionally disable flattable when script is 
+running through console,
+
+To disable it set `console.run` to `false` in `config/flattable.php`.
+
 
 ### Using callbacks
 If none of available options works for your use case, you can pass a callback for `columns` and `wheres` configs.
