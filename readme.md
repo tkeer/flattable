@@ -32,7 +32,7 @@ Usage
 Learn with examples
 -------
 
-It is easier to explain with the help of examples. For more detailed examples, please review the [tests](https://github.com/tkeer/flattable/tree/master/tests)
+It is easier to explain it with the help of examples. For more detailed examples, please review the [tests](https://github.com/tkeer/flattable/tree/master/tests)
 
 
 ***Example DB structure***
@@ -50,7 +50,7 @@ As book is main table here, we will add flattable configuration in the book's mo
 
 To explain the problem, we will break our configurations into 3 parts. For detailed configuration for the book, please see first config entry of [book](https://github.com/tkeer/flattable/blob/master/tests/Models/Book.php#L22)'s model in tests.
 
-### 1. Add books in book's flattable
+### 1. Book in book's flattable
 > also updates/deletes when related book is updated or deleted
 
 in `getFlattableConfig()` method of the `Book` model
