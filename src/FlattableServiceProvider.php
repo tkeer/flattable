@@ -4,6 +4,7 @@
 namespace Tkeer\Flattable;
 
 use Illuminate\Support\ServiceProvider;
+use Tkeer\Flattable\Commands\FillFlattableCommand;
 
 class FlattableServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,10 @@ class FlattableServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../config/flattable.php' => config_path('flattable.php'),
             ], 'config');
+
+            $this->commands([
+                FillFlattableCommand::class
+            ]);
 
         }
     }

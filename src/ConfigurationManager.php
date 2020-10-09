@@ -20,9 +20,9 @@ class ConfigurationManager
         $this->config = $config;
     }
 
-    public function get()
+    public function get(string $key = null, $default = null)
     {
-        return $this->config;
+        return Arr::get($this->config, $key, $default);
     }
 
     public function type()

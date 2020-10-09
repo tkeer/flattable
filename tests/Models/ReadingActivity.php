@@ -17,6 +17,11 @@ class ReadingActivity extends Model
 
     public $timestamps = false;
 
+    public function book()
+    {
+        return $this->belongsTo(Book::class);
+    }
+
     public function flattableConfig(): array
     {
         return [
