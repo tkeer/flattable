@@ -31,6 +31,8 @@ class ChangesBuilderHelper
      */
     protected $constraintCallback;
 
+    protected $dirtyCheck = true;
+
     public function __construct(
         DatabaseManager $databaseManager,
         ConfigurationManager $configurationManager,
@@ -71,6 +73,10 @@ class ChangesBuilderHelper
     private function getChangesConfigForUpdatedColumnsOnly()
     {
         $updatedColumnsConfig = Arr::get($this->config->get(), 'changes', []);
+
+        if (! $this->dirtyCheck) {
+            return $updatedColumnsConfig;
+        }
 
         //assuming, we'll be managing only foreign key, trim out null changes
         $updatedColumns = array_filter($this->getModel()->getDirty());
@@ -233,6 +239,14 @@ class ChangesBuilderHelper
                 ];
             })
             ->toArray();
+    }
+
+    /**
+     *
+     */
+    public function disableDirtyCheck()
+    {
+        $this->dirtyCheck = false;
     }
 
     public function setModel(Model $model)

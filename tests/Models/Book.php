@@ -16,6 +16,11 @@ class Book extends Model
         return $this->belongsToMany(Author::class);
     }
 
+    public function publisher()
+    {
+        return $this->belongsTo(Publisher::class);
+    }
+
     public function flattableConfig(): array
     {
         return [

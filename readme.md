@@ -430,3 +430,14 @@ For `wheres` callback, you will receive `QueryBuilder` and `Model` as parameters
 ]
 
 ```
+
+### Fill flattable
+
+You can use `flattable:fill` command to fill your flattable. 
+
+```shell script
+php artisan flattable:fill App\\Models\\Book
+```
+
+This command will use primary config of `Book` model
+and fill the related flattable
