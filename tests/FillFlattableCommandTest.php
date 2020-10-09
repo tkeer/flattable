@@ -20,7 +20,7 @@ class FillFlattableCommandTest extends TestCase
         $this->createEntriesInRelatedTables();
         $this->assertEmpty(ReadingActivityFlattable::count());
 
-        $this->artisan('flattable:fill ' . addslashes(ReadingActivity::class));
+        $this->artisan('flattable:fill', ['model' => ReadingActivity::class]);
 
         $this->assertEquals(2, ReadingActivityFlattable::count());
 
