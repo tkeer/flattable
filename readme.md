@@ -20,8 +20,14 @@ this package can help you.
 It allows you to combine multiple tables into one
 big table, so that you can avoid slow sub queries and joins in your database queries.
 
+<p>
 
 <img height="300px" src="https://user-images.githubusercontent.com/20635376/95441979-3da4d100-0974-11eb-9855-1f902e1eb3df.png" alt="laravel flattable">
+</p>
+
+
+You just have to create a flat table, add configuration in related models,
+and everything will start working automatically.
 
 
 Installation
