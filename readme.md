@@ -10,6 +10,20 @@ Laravel Flattable [![Build Status](https://travis-ci.org/tkeer/flattable.svg?bra
 
 Combine multiple tables in one flat god table.
 
+Introduction
+----------
+
+Storage is cheap these days, performance isn't. 
+If you want to trade performance at the cost of storage,
+this package can help you.
+
+This package allows you to combine multiple tables into one
+big table, so that you can avoid slow sub queries and joins in your database queries.
+
+
+<img height="300px" src="https://user-images.githubusercontent.com/20635376/95441979-3da4d100-0974-11eb-9855-1f902e1eb3df.png" alt="laravel flattable">
+
+
 Installation
 ------------
 Install the package via Composer:
