@@ -17,7 +17,7 @@ Storage is cheap these days, performance isn't.
 If you want to trade performance at the cost of storage,
 this package can help you.
 
-This package allows you to combine multiple tables into one
+It allows you to combine multiple tables into one
 big table, so that you can avoid slow sub queries and joins in your database queries.
 
 
