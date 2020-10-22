@@ -11,7 +11,7 @@ Laravel Flattable [![Build Status](https://travis-ci.org/tkeer/flattable.svg?bra
 It lets you manage de-normalized tables with simple 
 configurations.
 
-Just add array based config in your model and it will
+Just add array based config in your models and it will
 automatically sync your denormalized tables. 
 
 
