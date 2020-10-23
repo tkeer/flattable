@@ -18,12 +18,11 @@ automatically sync your denormalized tables.
 Introduction
 ----------
 
-Storage is cheap these days, performance isn't. 
-If you want to trade performance at the cost of storage,
-this package can help you.
+Do you currenlty have de-normalized tables in your laravel application, or planning to have one, this package can help you keep your denormalized tables synced with source tables.
 
-It allows you to combine multiple tables into one
-big table, so that you can avoid slow sub queries and joins in your database queries.
+With flattable, you can combine multiple tables into one big table and improve performance by:
+
+Minimizing the need for joins and subqueries, precomputing aggregate values, that is, computing them at data modification time, rather than at select time
 
 <p>
 
