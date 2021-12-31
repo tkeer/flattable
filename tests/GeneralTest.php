@@ -60,7 +60,7 @@ class GeneralTest extends TestCase
     {
         $publisher = new class extends Publisher {
             protected $table = 'publishers';
-            public function flattableConfig()
+            public function flattableConfig(): array
             {
                 return [
                     [

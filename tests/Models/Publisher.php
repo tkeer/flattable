@@ -16,7 +16,7 @@ class Publisher extends Model
         return $this->first_name . ' ' . $this->last_name;
     }
 
-    public function flattableConfig()
+    public function flattableConfig(): array
     {
         return [
 

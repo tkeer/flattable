@@ -4,6 +4,7 @@ os:
 language: php
 
 php:
+  - '8.0'
   - '7.4'
   - '7.3'
 
