@@ -45,8 +45,9 @@ composer require tkeer/flattable
 ### Laravel version Compatibility
  Laravel  | Package
 :---------|:----------
- 8.x      | 2.x
- <8.x     | 1.x
+ 8.x\|php8      | 3.x
+ 8.x\|php7      | 2.x
+ <8.x          | 1.x
 
 Usage
 ------------
